@@ -1,0 +1,95 @@
+{
+  "ceremonyId": "fairproof-phase2-v1",
+  "circuit": "winner_identity",
+  "startedAt": "2026-09-02T14:17:40.649Z",
+  "phase1": {
+    "name": "powersOfTau28_hez_final_17.ptau",
+    "url": "https://storage.googleapis.com/zkevm/ptau/powersOfTau28_hez_final_17.ptau",
+    "sha256": "6b662a324867139fb1a20a324d90b6ff61856dfb23f59326909f14b0e2483ae0",
+    "power": 17
+  },
+  "circuitSources": {
+    "files": [
+      {
+        "file": "packages/circuits/src/winner_identity.circom",
+        "sha256": "1033701d1f0d87e661b6ad00a9a3d74d096bd20aa7b9061e5434dd621315c00e"
+      },
+      {
+        "file": "packages/circuits/src/commitments.circom",
+        "sha256": "aae20d247af4ed4dfd9784c9b1d9fb7c2826be1d7a0f378eb52ac462097d7543"
+      },
+      {
+        "file": "packages/circuits/src/merkle.circom",
+        "sha256": "aa278dec2136ddf947549950d4894d34e6940f7cc1bcd88153ee40bba34aa886"
+      },
+      {
+        "file": "packages/circuits/src/constants.circom",
+        "sha256": "5e334e46e0a141218b341f6cf9d10a16be899404e25dd71f42d8eca3ae317ba4"
+      }
+    ],
+    "combined": "1985b802e3561f01b7c27b4e42e407522af00a1e94f65b4959b4e000cd03162f"
+  },
+  "r1cs": {
+    "sha256": "de5014f8ffd6be6bfa440585cea5deb71253672f27605aee55a8a592345d96d6",
+    "constraints": 16546,
+    "publicInputs": 5,
+    "privateInputs": 25,
+    "outputs": 0
+  },
+  "contributions": [
+    {
+      "index": 1,
+      "name": "Team Bind - circuits owner",
+      "affiliation": "Team Bind, BCOLBD 2026",
+      "independent": false,
+      "contributionHash": "f9e32d29198125e66d51e62368d321895b94f8073bd51ceeb1d061e4bc4008000605889d777730b5bef1f7f9b74497c200de898d35d023632314ebd456dd3801",
+      "zkeySha256": "2cd6f80d3b3ebd68d9bd851937febb4bb283f66c3932ffa8f0f0bbcbcc0c08a9",
+      "entropySource": "crypto.randomBytes(64)",
+      "at": "2026-09-02T14:17:43.651Z"
+    },
+    {
+      "index": 2,
+      "name": "Team Bind - contracts owner",
+      "affiliation": "Team Bind, BCOLBD 2026",
+      "independent": false,
+      "contributionHash": "dc26ad531aa8d4aa779d58531accb066d69ccd5b75108cf5d4ec33c80919ee77eaf8c1afd828250fe4c698c21531b0d992db6f91f24070159580901b517bc286",
+      "zkeySha256": "fc0a279ba567ca5aa1cf0b276b53a4db5d2bc5e4670dc07eb06bcfa114ed3584",
+      "entropySource": "crypto.randomBytes(64)",
+      "at": "2026-09-02T14:17:46.505Z"
+    },
+    {
+      "index": 3,
+      "name": "Prototype third contributor",
+      "affiliation": "Team Bind, BCOLBD 2026",
+      "independent": false,
+      "contributionHash": "8411bd5ae27f80514c0df32a445e0528eab45914e6f4a34ebcd41af9786786062c67a74d148f1e05a3b331f45dc3c8f16e85659a1a71d7f6d64a90d56734191d",
+      "zkeySha256": "f12f60c8869faf310eb7b2f5085f5400aa59fcef0e1034fa6f83025230ec7ad1",
+      "entropySource": "crypto.randomBytes(64)",
+      "at": "2026-09-02T14:17:49.398Z"
+    }
+  ],
+  "beacon": {
+    "source": "drand League of Entropy, default chain",
+    "chainHash": "8990e7a9aaed2ffed73dbd7092123d6f289930540d7651336225dc172e51b2ce",
+    "round": 6430921,
+    "randomness": "74b9051d4edb2cfb66ddffd3c6b06ba9060200765829923d865ef775102a12cc",
+    "signature": "8e339e7cee1fa5a11de02f04ee680aff195d6584016b8f3e235e98055e0e9fb38abb5131e067254478da1b0febae408c14c80d32e7662b88bbcc048d3c24da2a83d4687dd34551562056aff7e911f7781c05fca8c84ebdc7ea1c2c6ee477703d",
+    "numIterationsExp": 10,
+    "contributionHash": "81f3716d2a5a8ccbaa2bee1fb4e8c8a79add595d7b1cd861deffeda106cbfd21e272ab7e8187c0d08678b19a7611fc3fdca3ddcadbf44cf1740225267b2affe6",
+    "recheck": "https://api.drand.sh/public/6430921",
+    "at": "2026-09-02T14:17:53.555Z"
+  },
+  "singleMachine": true,
+  "singleMachineNote": "All phase-2 contributions were produced on one machine by `ceremony all`. One machine therefore saw every contributor's entropy. If that machine was compromised, or if its operator retained the secrets, forged eligibility proofs would be possible. This is the prototype limitation the whitepaper names in Table 11; see docs/cryptography.md.",
+  "finalZkey": {
+    "sha256": "7f7b6a98421889a16313e952310c7c9ffda0991fa1e392a8ffb1ae14c094e6a7"
+  },
+  "verificationKey": {
+    "protocol": "groth16",
+    "curve": "bn128",
+    "nPublic": 5,
+    "sha256": "c848e954bbba4716c46bc92f4674e4fea1a7b7f9a496d497a181239ce7fb642b",
+    "canonicalization": "JSON.stringify(vkey, Object.keys(vkey).sort())"
+  },
+  "finalizedAt": "2026-09-02T14:18:03.195Z"
+}

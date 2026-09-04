@@ -1,0 +1,40 @@
+{
+  "$comment": [
+    "Declared participants in the FairProof phase-2 ceremony.",
+    "This file is the CLAIM. The transcript is the EVIDENCE. `ceremony:verify`",
+    "checks the evidence cryptographically and does not trust either file.",
+    "",
+    "`independent` records whether the contributor is outside the project team.",
+    "Development plan Section 11B.1 asks for at least three contributors,",
+    "ideally one external. Record the truth here even when it is unflattering:",
+    "a transcript that overstates its own independence is worse than a small",
+    "ceremony honestly labelled."
+  ],
+  "ceremonyId": "fairproof-phase2-v1",
+  "contributors": [
+    {
+      "index": 1,
+      "name": "Team Bind - circuits owner",
+      "affiliation": "Team Bind, BCOLBD 2026",
+      "independent": false
+    },
+    {
+      "index": 2,
+      "name": "Team Bind - contracts owner",
+      "affiliation": "Team Bind, BCOLBD 2026",
+      "independent": false
+    },
+    {
+      "index": 3,
+      "name": "Prototype third contributor",
+      "affiliation": "Team Bind, BCOLBD 2026",
+      "independent": false
+    }
+  ],
+  "beacon": {
+    "source": "drand League of Entropy, default chain",
+    "chainHash": "8990e7a9aaed2ffed73dbd7092123d6f289930540d7651336225dc172e51b2ce",
+    "api": "https://api.drand.sh/public/{round}",
+    "why": "The beacon must be unpredictable at contribution time and publicly re-checkable afterwards. A value produced by this project - a block hash from our own Besu chain, for instance - would be worthless, because the project controls it. drand is operated by an external consortium and every round is permanently retrievable by number."
+  }
+}

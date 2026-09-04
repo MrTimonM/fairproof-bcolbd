@@ -1,0 +1,181 @@
+# FairProof permissioned QBFT network - four validators.
+#
+# Development plan Section 7. Whitepaper Section 9.2: the four validators
+# represent a Procurement Regulator, a Procuring Entity, an Independent
+# Auditor and a Chamber of Commerce. QBFT tolerates floor((n-1)/3) Byzantine
+# validators, so four tolerate one faulty or malicious institution.
+#
+# THESE ARE SYNTHETIC PROTOTYPE ROLES, not claims of real institutional
+# participation (plan Section 7.2).
+#
+# Run `npm run network:setup` first: validator keys are generated, never
+# committed (plan Section 5.1).
+
+name: fairproof
+
+x-besu-common: &besu-common
+  image: hyperledger/besu:25.7.0
+  restart: unless-stopped
+  user: "${UID:-1000}:${GID:-1000}"
+  entrypoint:
+    - /opt/besu/bin/besu
+    - --genesis-file=/config/genesis.json
+    - --node-private-key-file=/node/key
+    - --static-nodes-file=/config/static-nodes.json
+    # Permissioned NODE allowlist. There is deliberately no account
+    # allowlist: whitepaper Section 9.3 requires pseudonymous bidders to be
+    # able to submit proof-valid transactions.
+    - --permissions-nodes-config-file-enabled=true
+    - --permissions-nodes-config-file=/permissions/permissions_config.toml
+    - --rpc-http-enabled=true
+    - --rpc-http-host=0.0.0.0
+    - --rpc-http-port=8545
+    - --rpc-http-cors-origins=all
+    - --rpc-http-api=ETH,NET,WEB3,QBFT,ADMIN,TXPOOL,DEBUG
+    # WebSocket RPC, so the UI can subscribe to protocol events rather than
+    # polling (plan Section 7.1).
+    - --rpc-ws-enabled=true
+    - --rpc-ws-host=0.0.0.0
+    - --rpc-ws-port=8546
+    - --rpc-ws-api=ETH,NET,WEB3,QBFT
+    - --host-allowlist=*
+    # Zero gas price. Whitepaper Table 6: no gas token, no volatility. This
+    # also means a bidder's fresh per-tender address needs no funding, which
+    # removes the wallet-funding correlation channel of Table 4.
+    - --min-gas-price=0
+    - --data-path=/data
+  environment:
+    # Besu's JVM would otherwise size its heap against total system RAM;
+    # four unbounded nodes plus the app and browser proving would contend.
+    BESU_OPTS: "-Xmx1g -Xms256m"
+  # The Besu image ships no curl, wget or nc, so the healthcheck speaks HTTP
+  # through bash's /dev/tcp. An earlier version used wget and failed on every
+  # probe with "wget: not found" - the chain was healthy throughout, but
+  # `docker ps` reported all four validators unhealthy, and any
+  # `depends_on: service_healthy` would have waited forever.
+  healthcheck:
+    test:
+      - CMD
+      - bash
+      - -c
+      # Content-Length 63 is the byte length of the JSON-RPC body below. Both
+      # are literals because docker-compose interpolates ${...}, so computing
+      # the length in-shell would need escaping for no benefit.
+      - >-
+        exec 3<>/dev/tcp/127.0.0.1/8545 || exit 1;
+        printf 'POST / HTTP/1.1\r\nHost: localhost\r\nContent-Type: application/json\r\nContent-Length: 63\r\nConnection: close\r\n\r\n{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}' >&3;
+        grep -q '"result"' <&3
+    interval: 10s
+    timeout: 5s
+    retries: 12
+    start_period: 30s
+
+services:
+  # Validator 1: Procurement Regulator
+  validator-1:
+    <<: *besu-common
+    container_name: fairproof-validator-1
+    hostname: fairproof-validator-1
+    command:
+      - --p2p-port=30303
+    ports:
+      - "8545:8545"
+      - "8555:8546"
+      - "30303:30303"
+    volumes:
+      - ./config:/config:ro
+      - ./permissions:/permissions:ro
+      - ./nodes/1:/node:ro
+      # Bind mount, not a named volume: the container runs as the host
+      # user, and a named volume would be created root-owned.
+      - ./nodes/1/data:/data
+    networks:
+      fairproof:
+        # Besu's static-nodes.json needs IPs, not hostnames, so each
+        # validator gets a fixed address that scripts/network-setup.mjs
+        # writes into the enode URLs.
+        ipv4_address: 172.28.0.11
+
+  # Validator 2: Procuring Entity
+  validator-2:
+    <<: *besu-common
+    container_name: fairproof-validator-2
+    hostname: fairproof-validator-2
+    command:
+      - --p2p-port=30304
+    ports:
+      - "8546:8545"
+      - "8556:8546"
+      - "30304:30304"
+    volumes:
+      - ./config:/config:ro
+      - ./permissions:/permissions:ro
+      - ./nodes/2:/node:ro
+      # Bind mount, not a named volume: the container runs as the host
+      # user, and a named volume would be created root-owned.
+      - ./nodes/2/data:/data
+    networks:
+      fairproof:
+        # Besu's static-nodes.json needs IPs, not hostnames, so each
+        # validator gets a fixed address that scripts/network-setup.mjs
+        # writes into the enode URLs.
+        ipv4_address: 172.28.0.12
+
+  # Validator 3: Independent Auditor
+  validator-3:
+    <<: *besu-common
+    container_name: fairproof-validator-3
+    hostname: fairproof-validator-3
+    command:
+      - --p2p-port=30305
+    ports:
+      - "8547:8545"
+      - "8557:8546"
+      - "30305:30305"
+    volumes:
+      - ./config:/config:ro
+      - ./permissions:/permissions:ro
+      - ./nodes/3:/node:ro
+      # Bind mount, not a named volume: the container runs as the host
+      # user, and a named volume would be created root-owned.
+      - ./nodes/3/data:/data
+    networks:
+      fairproof:
+        # Besu's static-nodes.json needs IPs, not hostnames, so each
+        # validator gets a fixed address that scripts/network-setup.mjs
+        # writes into the enode URLs.
+        ipv4_address: 172.28.0.13
+
+  # Validator 4: Chamber of Commerce
+  validator-4:
+    <<: *besu-common
+    container_name: fairproof-validator-4
+    hostname: fairproof-validator-4
+    command:
+      - --p2p-port=30306
+    ports:
+      - "8548:8545"
+      - "8558:8546"
+      - "30306:30306"
+    volumes:
+      - ./config:/config:ro
+      - ./permissions:/permissions:ro
+      - ./nodes/4:/node:ro
+      # Bind mount, not a named volume: the container runs as the host
+      # user, and a named volume would be created root-owned.
+      - ./nodes/4/data:/data
+    networks:
+      fairproof:
+        # Besu's static-nodes.json needs IPs, not hostnames, so each
+        # validator gets a fixed address that scripts/network-setup.mjs
+        # writes into the enode URLs.
+        ipv4_address: 172.28.0.14
+
+
+networks:
+  fairproof:
+    name: fairproof
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

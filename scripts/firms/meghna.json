@@ -1,0 +1,11 @@
+{
+  "id": "meghna",
+  "firm": {
+    "displayName": "Meghna Engineering Consortium",
+    "registrationNumber": "C-094771/2016",
+    "tradeLicence": "CCC/TL/2016/22904",
+    "vatBin": "003890114-0405"
+  },
+  "credential": { "credentialId": 1044, "annualTurnover": 1450000000, "relevantExperience": 141, "certificationCode": 9001, "validForDays": 730 },
+  "bid": { "amountMinorUnit": 9600000, "currency": "BDT" }
+}

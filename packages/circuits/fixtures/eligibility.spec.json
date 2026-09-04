@@ -1,0 +1,134 @@
+{
+  "$comment": [
+    "The frozen scenario the eligibility proof fixtures are built from.",
+    "",
+    "Consumed by `npm run fixtures:eligibility` (which proves) and by",
+    "packages/contracts/test/EligibilityVerifier.test.cjs (which deploys a",
+    "tender with these exact values). Two implementations reading one spec is",
+    "what makes the test a cross-check rather than a tautology.",
+    "",
+    "The bidding window uses far-future absolute timestamps on purpose. A",
+    "fixture anchored to 'now' passes the day it is generated and fails every",
+    "day after, and the failure looks like a broken verifier rather than a",
+    "stale fixture.",
+    "",
+    "The scenario is the whitepaper Figure 5 dataset: a BDT 50 crore turnover",
+    "floor, five years of relevant experience, certification 9001.",
+    "credentialEpoch is 7, not 1, so the fixture's published registry and revocation roots cannot be overwritten by the lifecycle e2e test, which uses epoch 1. Both write to issuerRegistryRoot[epoch]; sharing an epoch would make a previously valid proof stop verifying for reasons unrelated to the proof.",
+    "reviewWindow is 300 to match the deployment's default policy floor, so the same fixture activates on the live chain as well as in unit tests.",
+    "The identity records are SYNTHETIC. No real company's registration, trade licence or VAT/BIN appears anywhere in this repository."
+  ],
+  "tender": {
+    "tenderIdString": "FP-00014",
+    "turnoverThreshold": "500000000",
+    "experienceMonthsThreshold": "60",
+    "requiredCertificationCode": "9001",
+    "biddingStart": "4000000000",
+    "deadline": "4000003600",
+    "reviewWindow": "300",
+    "credentialEpoch": "7",
+    "requiredIssuerId": "ICAB-AUDIT-001",
+    "schemaVersion": 1,
+    "verifierVersion": 1,
+    "disclosurePolicy": 2,
+    "awardRule": 1,
+    "tieBreakRule": 1,
+    "contingencyPolicy": 1
+  },
+  "otherTenderIdString": "FP-00015",
+  "issuer": {
+    "privByte": 7,
+    "secondPrivByte": 3
+  },
+  "ruleDocument": {
+    "awardRule": "LOWEST_QUALIFIED_PRICE",
+    "biddingStart": 4000000000,
+    "contingencyPolicy": "CANCEL_AND_REISSUE",
+    "deadline": 4000003600,
+    "disclosurePolicy": "WINNER_ONLY_POST_AWARD",
+    "issuerEpoch": 7,
+    "requirements": {
+      "certificationCode": 9001,
+      "experienceMonths": 60,
+      "turnoverThreshold": 500000000
+    },
+    "revocationPolicy": "DEADLINE_ROOT",
+    "reviewWindow": 300,
+    "schemaVersion": 1,
+    "selectionRule": "LOWEST_QUALIFIED_PRICE",
+    "tenderId": "FP-00014",
+    "tieBreakRule": "SUBMISSION_SEQUENCE",
+    "verifierVersion": 1
+  },
+  "bidders": [
+    {
+      "label": "Bidder A - the Figure 5 winner",
+      "subjectSecret": "4759208310398234759832475982374598234759823475982347",
+      "annualTurnover": "620000000",
+      "relevantExperience": "72",
+      "certValidUntil": "4100000000",
+      "credentialValidUntil": "4100000000",
+      "credentialId": "1042",
+      "issuedAt": "1780000000",
+      "bidAmount": "7400000",
+      "bidNonce": "8823409128340981234098123409812340981234098123409812",
+      "identityRecord": {
+        "credentialId": 1042,
+        "legalName": "Padma Infrastructure Limited",
+        "registrationNumber": "C-118342/2019",
+        "tradeLicence": "DSCC/TL/2019/44821",
+        "vatBin": "004417029-0102"
+      }
+    },
+    {
+      "label": "Bidder B - qualified, higher price",
+      "subjectSecret": "1193847562938475629384756293847562938475629384756293",
+      "annualTurnover": "540000000",
+      "relevantExperience": "63",
+      "certValidUntil": "4100000000",
+      "credentialValidUntil": "4100000000",
+      "credentialId": "1043",
+      "issuedAt": "1780500000",
+      "bidAmount": "8150000",
+      "bidNonce": "5567788990011223344556677889900112233445566778899001",
+      "identityRecord": {
+        "credentialId": 1043,
+        "legalName": "Jamuna Civil Works Limited",
+        "registrationNumber": "C-127905/2020",
+        "tradeLicence": "DSCC/TL/2020/51037",
+        "vatBin": "005182773-0203"
+      }
+    }
+  ],
+  "committee": {
+    "$comment": [
+      "TEST MATERIAL ONLY. A deterministic 3-of-5 Feldman dealing, so the",
+      "committed fixture can carry a sealed ciphertext that the opening tests",
+      "can actually open. The secret and the member shares are published here",
+      "on purpose: a reproducible opening test needs them, and a tender whose",
+      "shares are in a public git repository is obviously not a real tender.",
+      "NEVER reuse these values for anything that matters."
+    ],
+    "secret": "1122334455667788990011223344556677889900112233445566778899001122",
+    "coefficients": [
+      "9988776655443322110099887766554433221100998877665544332211009988",
+      "1357913579135791357913579135791357913579135791357913579135791357"
+    ],
+    "ephemeralScalars": {
+      "valid": "424242424242424242424242424242424242424242424242424242424242",
+      "secondBidder": "515151515151515151515151515151515151515151515151515151515151"
+    }
+  },
+  "deadlineRevocation": {
+    "$comment": [
+      "The revocation tree the tender's deadline root is pinned from.",
+      "",
+      "A DIFFERENT credential is revoked in it (9999, not either bidder's), so",
+      "the deadline root differs from the submission-time root while both",
+      "bidders remain unrevoked. If the two roots were equal the original",
+      "eligibility proof would double as a status proof and the close-time check",
+      "would be exercised only vacuously."
+    ],
+    "revokedCredentialId": "9999"
+  }
+}

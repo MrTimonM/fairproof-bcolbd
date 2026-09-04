@@ -1,0 +1,13 @@
+{
+  "name": "@fairproof/verifier",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Independent verifier. Consumes an evidence bundle and re-derives every claim from scratch.",
+  "bin": { "fairproof-verify": "src/cli.mjs" },
+  "main": "src/verify.mjs",
+  "dependencies": {
+    "ethers": "^6.13.0",
+    "snarkjs": "^0.7.5"
+  }
+}

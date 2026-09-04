@@ -1,0 +1,11 @@
+{
+  "id": "jamuna",
+  "firm": {
+    "displayName": "Jamuna Civil Works Limited",
+    "registrationNumber": "C-127905/2020",
+    "tradeLicence": "DSCC/TL/2020/51037",
+    "vatBin": "005182773-0203"
+  },
+  "credential": { "credentialId": 1043, "annualTurnover": 540000000, "relevantExperience": 63, "certificationCode": 9001, "validForDays": 365 },
+  "bid": { "amountMinorUnit": 8150000, "currency": "BDT" }
+}

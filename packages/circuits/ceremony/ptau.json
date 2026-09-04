@@ -1,0 +1,10 @@
+{
+  "$comment": "Phase 1 is the published Hermez powers-of-tau. We deliberately do not generate our own phase 1 (development plan Section 11B.1 step 1). The sha256 pins which file; `snarkjs powersoftau verify` proves the file is a valid ceremony output independently of us.",
+  "name": "powersOfTau28_hez_final_17.ptau",
+  "url": "https://storage.googleapis.com/zkevm/ptau/powersOfTau28_hez_final_17.ptau",
+  "sha256": "6b662a324867139fb1a20a324d90b6ff61856dfb23f59326909f14b0e2483ae0",
+  "power": 17,
+  "maxConstraints": 131072,
+  "curve": "bn128",
+  "pinnedAt": "2026-09-02T10:15:55.776Z"
+}

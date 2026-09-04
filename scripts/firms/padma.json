@@ -1,0 +1,11 @@
+{
+  "id": "padma",
+  "firm": {
+    "displayName": "Padma Infrastructure Limited",
+    "registrationNumber": "C-118342/2019",
+    "tradeLicence": "DSCC/TL/2019/44821",
+    "vatBin": "004417029-0102"
+  },
+  "credential": { "credentialId": 1042, "annualTurnover": 620000000, "relevantExperience": 72, "certificationCode": 9001, "validForDays": 365 },
+  "bid": { "amountMinorUnit": 7400000, "currency": "BDT" }
+}

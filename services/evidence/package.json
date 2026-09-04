@@ -1,0 +1,9 @@
+{
+  "name": "@fairproof/evidence",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic evidence bundle exporter. Every value is chain-derived.",
+  "main": "src/bundle.mjs",
+  "dependencies": { "ethers": "^6.13.0" }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@fairproof/ciphertext-store",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "One replica of the sealed-bid ciphertext store. Three run independently.",
+  "main": "src/server.mjs",
+  "dependencies": {
+    "ethers": "^6.13.0"
+  }
+}
